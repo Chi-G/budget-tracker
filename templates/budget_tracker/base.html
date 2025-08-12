@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <title>{% block title %}Budget Tracker{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {% load static %}
+    <style>
+        .hidden { display: none !important; }
+        .card {
+            @apply bg-white rounded-lg shadow-md;
+        }
+        .full-width {
+            margin-left: calc(-50vw + 50%);
+            margin-right: calc(-50vw + 50%);
+            width: 100vw;
+        }
+        .btn-primary {
+            @apply bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors;
+        }
+        .btn-secondary {
+            @apply bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors;
+        }
+        .btn-success {
+            @apply bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-colors;
+        }
+        .btn-danger {
+            @apply bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition-colors;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-blue-600 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="{% url 'welcome' %}" class="text-2xl font-bold hover:text-blue-200 transition-colors cursor-pointer">💰 Budget Tracker</a>
+                <div id="nav-buttons" class="space-x-4">
+                    {% block nav_buttons %}
+                    <a href="{% url 'login' %}" class="btn-secondary">Login</a>
+                    <a href="{% url 'register' %}" class="btn-primary">Register</a>
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="fixed top-4 right-4 z-50 space-y-2"></div>
+
+    <!-- Base JavaScript -->
+    <script>
+        // Global variables
+        let authToken = localStorage.getItem('authToken');
+        let currentUser = null;
+        
+        const API_BASE = '/api';
+
+        // Utility Functions
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            const bgColor = type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500';
+            toast.className = `${bgColor} text-white px-6 py-3 rounded-lg shadow-lg transition-opacity`;
+            toast.textContent = message;
+            
+            document.getElementById('toast-container').appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // API Functions
+        async function apiCall(endpoint, options = {}) {
+            const url = API_BASE + endpoint;
+            const headers = {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'),
+                ...options.headers
+            };
+            
+            if (authToken) {
+                headers['Authorization'] = `Token ${authToken}`;
+            }
+            
+            try {
+                const response = await fetch(url, {
+                    ...options,
+                    headers
+                });
+                
+                // Check if response has content to parse
+                const contentType = response.headers.get('content-type');
+                const hasJsonContent = contentType && contentType.includes('application/json');
+                const hasContent = response.status !== 204 && response.headers.get('content-length') !== '0';
+                
+                let data = null;
+                
+                // Only try to parse JSON if there's content and it's JSON
+                if (hasContent && hasJsonContent) {
+                    const text = await response.text();
+                    if (text.trim()) {
+                        data = JSON.parse(text);
+                    }
+                } else if (hasContent) {
+                    // For non-JSON responses, get as text
+                    data = await response.text();
+                }
+                
+                if (!response.ok) {
+                    let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+                    
+                    if (data) {
+                        if (typeof data === 'string') {
+                            errorMessage = data;
+                        } else if (data.detail) {
+                            errorMessage = data.detail;
+                        } else if (data.error) {
+                            errorMessage = data.error;
+                        } else if (data.message) {
+                            errorMessage = data.message;
+                        } else if (typeof data === 'object') {
+                            // Handle Django REST Framework validation errors
+                            const errors = [];
+                            for (const [field, messages] of Object.entries(data)) {
+                                if (Array.isArray(messages)) {
+                                    errors.push(`${field}: ${messages.join(', ')}`);
+                                } else {
+                                    errors.push(`${field}: ${messages}`);
+                                }
+                            }
+                            if (errors.length > 0) {
+                                errorMessage = errors.join('; ');
+                            }
+                        }
+                    }
+                    
+                    const error = new Error(errorMessage);
+                    error.status = response.status;
+                    error.data = data;
+                    throw error;
+                }
+                
+                return data;
+            } catch (error) {
+                console.error('API Error:', error);
+                throw error;
+            }
+        }
+
+        // Get CSRF token from cookies
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            // Fallback to meta tag
+            if (!cookieValue) {
+                const token = document.querySelector('meta[name="csrf-token"]');
+                if (token) {
+                    cookieValue = token.getAttribute('content');
+                }
+            }
+            return cookieValue;
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD'
+            }).format(amount || 0);
+        }
+    </script>
+
+    {% block extra_js %}
+    {% endblock %}
+</body>
+</html>

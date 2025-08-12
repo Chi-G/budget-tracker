@@ -1,0 +1,160 @@
+{% extends 'budget_tracker/base.html' %}
+
+{% block title %}Welcome - Budget Tracker{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="bg-gradient-to-r from-blue-900 to-blue-600 text-white py-24 px-4 text-center relative overflow-hidden">
+    <div class="max-w-5xl mx-auto relative z-20">
+        <h1 class="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
+            Your <span class="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Budget Tracker</span>
+        </h1>
+        <p class="text-xl md:text-2xl mb-8 text-gray-200 max-w-2xl mx-auto">
+            Take full control of your finances with our intuitive tool for tracking income, expenses, and financial insights.
+        </p>
+        <div class="space-x-4 relative z-30">
+            <a href="/register/" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg px-8 py-3 rounded-full hover:shadow-lg transition-all duration-300 cursor-pointer">Get Started</a>
+            <a href="/login/" class="inline-block bg-gray-600 hover:bg-gray-700 text-white font-bold text-lg px-8 py-3 rounded-full hover:shadow-lg transition-all duration-300 cursor-pointer">Sign In</a>
+        </div>
+    </div>
+    <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 1440 320\'%3E%3Cpath fill=\'%23000022\' fill-opacity=\'0.2\' d=\'M0,64L48,80C96,96,192,128,288,128C384,128,480,96,576,85.3C672,75,768,85,864,85.3C960,85,1056,75,1152,74.7C1248,75,1344,85,1392,90.7L1440,96V320H1392C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320H0V64Z\'/%3E%3C/svg%3E')] bg-no-repeat bg-bottom opacity-50 z-10"></div>
+</div>
+
+<!-- Features Section -->
+<div class="max-w-7xl mx-auto px-4 py-16">
+    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-900">Why Choose Budget Tracker?</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="card p-6 text-center hover:bg-blue-50 hover:shadow-xl transition-all duration-300">
+            <div class="mx-auto mb-4 text-4xl text-blue-600">📊</div>
+            <h3 class="text-xl font-semibold mb-2 text-gray-800">Track Expenses</h3>
+            <p class="text-gray-600">Monitor your spending across custom categories with ease.</p>
+        </div>
+        <div class="card p-6 text-center hover:bg-green-50 hover:shadow-xl transition-all duration-300">
+            <div class="mx-auto mb-4 text-4xl text-green-600">💰</div>
+            <h3 class="text-xl font-semibold mb-2 text-gray-800">Monitor Income</h3>
+            <p class="text-gray-600">Stay on top of all your income sources effortlessly.</p>
+        </div>
+        <div class="card p-6 text-center hover:bg-purple-50 hover:shadow-xl transition-all duration-300">
+            <div class="mx-auto mb-4 text-4xl text-purple-600">📈</div>
+            <h3 class="text-xl font-semibold mb-2 text-gray-800">Financial Insights</h3>
+            <p class="text-gray-600">Get detailed visuals and summaries of your finances.</p>
+        </div>
+        <div class="card p-6 text-center hover:bg-yellow-50 hover:shadow-xl transition-all duration-300">
+            <div class="mx-auto mb-4 text-4xl text-yellow-600">⏱️</div>
+            <h3 class="text-xl font-semibold mb-2 text-gray-800">Real-time Updates</h3>
+            <p class="text-gray-600">View your balance and transactions instantly.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Benefits Section -->
+<div class="bg-gray-50 py-16">
+    <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-900">Key Benefits</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="flex items-start space-x-4 p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
+                <div class="flex-shrink-0 mt-1">
+                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                        <span class="text-blue-600 text-lg font-bold">✓</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-2 text-gray-800">Easy Transaction Management</h4>
+                    <p class="text-gray-600">Add, edit, and categorize transactions with a user-friendly interface.</p>
+                </div>
+            </div>
+            <div class="flex items-start space-x-4 p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
+                <div class="flex-shrink-0 mt-1">
+                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                        <span class="text-blue-600 text-lg font-bold">✓</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-2 text-gray-800">Visual Reports</h4>
+                    <p class="text-gray-600">Explore stunning charts to analyze your spending patterns.</p>
+                </div>
+            </div>
+            <div class="flex items-start space-x-4 p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
+                <div class="flex-shrink-0 mt-1">
+                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                        <span class="text-blue-600 text-lg font-bold">✓</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-2 text-gray-800">Category-based Filtering</h4>
+                    <p class="text-gray-600">Filter transactions by custom categories for better organization.</p>
+                </div>
+            </div>
+            <div class="flex items-start space-x-4 p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
+                <div class="flex-shrink-0 mt-1">
+                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                        <span class="text-blue-600 text-lg font-bold">✓</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-2 text-gray-800">Real-time Balance</h4>
+                    <p class="text-gray-600">Check your financial position anytime with live updates.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer with full width styling -->
+<div class="relative">
+    <div class="absolute inset-x-0">
+        <footer class="bg-gradient-to-r from-gray-900 to-gray-800 text-white py-8 full-width">
+            <div class="w-full px-4 text-center">
+                <div class="flex justify-center space-x-6 mb-4">
+                    <a href="#" class="hover:text-blue-400 transition-colors" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-blue-400 transition-colors" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="hover:text-red-400 transition-colors" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="hover:text-blue-600 transition-colors" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <p class="text-sm">&copy; 2025 Budget Tracker. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if user is already logged in
+        const authToken = localStorage.getItem('authToken');
+        if (authToken) {
+            console.log('User already logged in, redirecting to dashboard...');
+            window.location.href = '/dashboard/';
+            return;
+        }
+        
+        console.log('Welcome page loaded, setting up button listeners...');
+        
+        // Add click event listeners to debug button clicks
+        const getStartedBtn = document.querySelector('a[href="/register/"]');
+        const signInBtn = document.querySelector('a[href="/login/"]');
+        
+        console.log('Get Started button found:', getStartedBtn);
+        console.log('Sign In button found:', signInBtn);
+        
+        if (getStartedBtn) {
+            getStartedBtn.addEventListener('click', function(e) {
+                console.log('Get Started button clicked! Navigating to /register/');
+                // Remove any potential preventDefault
+                e.stopPropagation();
+                window.location.href = '/register/';
+            });
+        }
+        
+        if (signInBtn) {
+            signInBtn.addEventListener('click', function(e) {
+                console.log('Sign In button clicked! Navigating to /login/');
+                // Remove any potential preventDefault
+                e.stopPropagation();
+                window.location.href = '/login/';
+            });
+        }
+    });
+</script>
+{% endblock %}
