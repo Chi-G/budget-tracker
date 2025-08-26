@@ -43,3 +43,7 @@ staticfiles/
 # Cache
 .cache/
 *.cache
+
+# Git setup files (keep local)
+GIT_SETUP.md
+git-push.bat

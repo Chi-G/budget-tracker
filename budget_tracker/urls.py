@@ -77,6 +77,6 @@ urlpatterns = [
     path('api/summary/', include('summary.urls')),
 ]
 
-# Serve static files during development
+# static files during development
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])

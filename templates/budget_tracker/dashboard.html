@@ -309,21 +309,14 @@
         setupEventListeners();
         setupModernFeatures();
         
-        // Set current date/time as default
+        // current date/time as default
         document.getElementById('transaction-date').value = new Date().toISOString().slice(0, 16);
     });
 
     function setupModernFeatures() {
-        // Update current date
-        updateCurrentDate();
-        
-        // Add loading states
-        addLoadingStates();
-        
-        // Setup real-time updates
-        setupRealTimeUpdates();
-        
-        // Add keyboard shortcuts
+        updateCurrentDate();        
+        addLoadingStates();        
+        setupRealTimeUpdates();        
         setupKeyboardShortcuts();
     }
 
@@ -339,7 +332,7 @@
     }
 
     function addLoadingStates() {
-        // Add loading spinners to cards
+        // loading spinners to cards
         const cards = document.querySelectorAll('#total-income, #total-expenses, #net-balance, #transaction-count');
         cards.forEach(card => {
             card.innerHTML = '<div class="animate-pulse">Loading...</div>';
@@ -356,13 +349,11 @@
 
     function setupKeyboardShortcuts() {
         document.addEventListener('keydown', function(e) {
-            // Ctrl + N for new transaction
             if (e.ctrlKey && e.key === 'n') {
                 e.preventDefault();
                 document.getElementById('transaction-amount').focus();
             }
             
-            // Ctrl + R for refresh
             if (e.ctrlKey && e.key === 'r') {
                 e.preventDefault();
                 loadTransactions();
@@ -691,7 +682,7 @@
             }
         });
 
-        // Category Breakdown Chart
+        // Category Chart
         if (summary.category_breakdown && summary.category_breakdown.expenses) {
             const categoryData = summary.category_breakdown.expenses;
             const labels = categoryData.map(cat => cat.category__name);
@@ -754,7 +745,7 @@
         }
     }
 
-    // Transaction Functions
+    // Transaction
     async function handleAddTransaction(e) {
         e.preventDefault();
         
@@ -823,7 +814,7 @@
         }
     }
 
-    // Filter Functions
+    // Filter
     async function applyFilters() {
         const type = document.getElementById('filter-type').value;
         const category = document.getElementById('filter-category').value;
@@ -857,7 +848,7 @@
         showToast('Filters cleared', 'info');
     }
 
-    // Modern Confirmation Modal
+    // Confirmation Modal
     function showConfirmationModal(options) {
         return new Promise((resolve) => {
             // Create modal HTML
@@ -910,7 +901,7 @@
             const cancelBtn = document.getElementById('cancel-btn');
             const backdrop = modal.querySelector('.modal-backdrop');
             
-            // Show modal with animation
+            // Show modal animation
             setTimeout(() => {
                 modal.querySelector('.modal-content').classList.add('animate-modal-in');
                 backdrop.classList.add('animate-fade-in');
@@ -940,7 +931,6 @@
             cancelBtn.addEventListener('click', handleCancel);
             backdrop.addEventListener('click', handleCancel);
             
-            // Handle Escape key
             const handleKeyDown = (e) => {
                 if (e.key === 'Escape') {
                     document.removeEventListener('keydown', handleKeyDown);
@@ -949,14 +939,13 @@
             };
             document.addEventListener('keydown', handleKeyDown);
             
-            // Focus the confirm button
             setTimeout(() => {
                 confirmBtn.focus();
             }, 100);
         });
     }
 
-    // Logout function
+    // Logout 
     async function logout() {
         try {
             await apiCall('/auth/logout/', { method: 'POST' });

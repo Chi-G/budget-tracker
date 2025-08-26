@@ -114,7 +114,7 @@ def transaction_filter_view(request):
             Q(category__name__icontains=search)
         )
     
-    # Order by date (newest first by default)
+    # Order by date
     queryset = queryset.select_related('category', 'user').order_by('-date', '-created_at')
     
     serializer = TransactionSerializer(queryset, many=True)
